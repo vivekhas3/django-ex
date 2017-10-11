@@ -1,0 +1,45 @@
+{% extends "single_base.html" %}
+{% block meta_keywords %}attributes, class, classes, instance, instances, python,  {% endblock meta_keywords %}
+{% block content %}
+<h1 align="center">Python - Difference between class and instance attributes</h1>
+<p >Today I am going to explain  the Difference between class and instance attributes<br/><br/>
+
+</p>
+Is there any meaningful distinction between:
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+class A(object):
+   foo = 5   # some default value
+ </code></pre></figure>
+vs.
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+class B(object):
+   def __init__(self, foo=5):
+       self.foo = foo
+     </code></pre></figure>
+
+<p >
+If you're creating a lot of instances, is there any difference in performance or space requirements for the two styles? When you read the code, do you consider the meaning of the two styles to be significantly different?<br>/<br/>
+The difference is that the attribute on the class is shared by all instances. The attribute on an instance is unique to that instance.
+<br/><br/>
+If coming from C++, attributes on the class are more like static member variables.
+<br/><br/>
+
+Beyond performance considerations, there is a significant semantic difference. In the class attribute case, there is just one object referred to. In the instance-attribute-set-at-instantiation, there can be multiple objects referred to. For instance
+</p>
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+
+>>> class A: foo = []
+>>> a, b = A(), A()
+>>> a.foo.append(5)
+>>> b.foo
+[5]
+>>> class A:
+...  def __init__(self): self.foo = []
+>>> a, b = A(), A()
+>>> a.foo.append(5)
+>>> b.foo
+[]
+</code></pre></figure>
+
+
+{% endblock content %}

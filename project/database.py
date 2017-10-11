@@ -16,10 +16,21 @@ def config():
         engine = engines.get(os.getenv('DATABASE_ENGINE'), engines['sqlite'])
     else:
         engine = engines['sqlite']
+    if os.getenv("vivek_env") == "local":
+        engine = "mysql"
     name = os.getenv('DATABASE_NAME')
     if not name and engine == engines['sqlite']:
         name = os.path.join(settings.BASE_DIR, 'db.sqlite3')
-    return {
+    if engine == "django.db.backends.mysql":
+        return {
+        'ENGINE': engine,
+        'NAME': "test",
+        'USER': "root",
+        'PASSWORD': "root",
+        'HOST': "localhost",
+    }
+    else:
+        return {
         'ENGINE': engine,
         'NAME': name,
         'USER': os.getenv('DATABASE_USER'),

@@ -1,0 +1,36 @@
+{% extends "single_base.html" %}
+{% block meta_keywords %}method, methods, python, tail,  {% endblock meta_keywords %}
+
+{% block content %}
+<h1 align="center">Python - Pythonic Equivalent of tail -f</h1>
+<p >Today I am going to explain  a small program on the pythonic equivalent of tail command in Linux<br/><br/>
+The logic is simple. We need to move to end of the file using the seek command. Get the total file size in bytes. Now fix the amount of data to be
+displayed in one tail (here 20 windows). Let's iterate until we reach the beginning of the file in chunks of 1024 bytes and add it to a string.
+Finally display the string.<br/><br/>
+Some explaination on the default methods used in the program,<br/><br/>
+1) seek:<br/><br/>
+	 move cusror to the specified postion and specified start index. Here i have used 2 to indicate the satrt index to be the EOF. 0 meanse BOF and 1 means the current cursor position.<br/><br/>
+
+2) tell:<br/><br/>
+	 returns the size of file in bytes.
+</p>
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+
+def tail(f, window=20):
+	 bytes = f.tell()
+	 f.seek(0,2)
+	 chunk = -1
+	 while bytes > 0:
+			 if bytes - buf > 0:
+					 f.seek(chunk*buf,2)
+					 data.append(f.read(buf))
+			 else:
+					 f.seek(0,0)
+					 data.append(f.read(buf))
+	 return "\n".join("".join(data).splitlines()[-window:])
+ </code></pre></figure>
+
+<p >Generally, this will locate the last 20 lines on the first or second pass through the loop. If your 74 character thing is actually accurate, you make the block size 2048 and you'll tail 20 lines almost immediately.</p>
+
+
+{% endblock content %}

@@ -1,0 +1,83 @@
+{% extends "single_base.html" %}
+{% block meta_keywords %}itertools, methods, python, {% endblock meta_keywords %}
+
+{% block content %}
+<h1 align="center">Python - Itertools Part 1</h1>
+ <p >Today I am going to explain my understanding on some of the amazing functions available in python's itertools module.
+ These too are very essential functions, and a clear understanding of these methods would help one in becoming a better python programmer.
+ All these methods will return an iterable object as response.
+ </p>
+ <ol>
+ <li>
+  <b>count:</b>
+ </li>
+ <p >
+  A count method is similar to range and xrange methods,except the fact that it does'nt need a stop variable. The implementation is shown below,
+ </p>
+   <figure class="highlight"><pre><code class="language-js" data-lang="js">
+  def count(start=0, step=1):
+   # count(10) --> 10 11 12 13 14 ...
+   # count(2.5, 0.5) -> 2.5 3.0 3.5 ...
+   n = start
+   while True:
+    yield n
+    n += step
+   >>> li=[1,2,3]
+   >>> map(lambda x:x**2,li)
+   [1, 4, 9]
+ </code></pre></figure>
+
+ <li>
+  <b>reduce:</b>
+ </li>
+ <p >
+ A cycle method loops over the given list of items again and again.
+ </p>
+ <figure class="highlight"><pre><code class="language-js" data-lang="js">
+
+ def cycle(iterable):
+  # cycle('ABCD') --> A B C D A B C D A B C D ...
+  saved = []
+  for element in iterable:
+   yield element
+   saved.append(element)
+  while saved:
+   for element in saved:
+      yield element
+    </code></pre></figure>
+
+ <li>
+  <b>dropwhile:</b>
+ </li>
+ <p >
+ Make an iterator that drops elements from the iterable as long as the predicate is true; afterwards, returns every element.
+ </p>
+   <figure class="highlight"><pre><code class="language-js" data-lang="js">
+      for j in i.dropwhile(lambda x: x&lt;5, [1,4,6,4,1]):
+          print j
+
+ 6
+ 4
+ 1
+</code></pre></figure>
+ Here, 1,4 fails the test and once 6 passes,all other elements are returned.
+ <li>
+  <b>ifilter:</b>
+ </li>
+ <p >
+  this method filters the data such that the data that pass validation are returned as result.
+ </p>
+   <figure class="highlight"><pre><code class="language-js" data-lang="js">
+ >>> for j in i.ifilter(lambda x: x%2, range(10)):
+  j
+
+
+ 1
+ 3
+ 5
+ 7
+ 9
+</code></pre></figure>
+
+ </ol>
+{% endblock content %}

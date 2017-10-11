@@ -1,0 +1,39 @@
+{% extends "single_base.html" %}
+{% block meta_keywords %}chrome, pseudo elements, pseudo selectors, customize  {% endblock meta_keywords %}
+
+{% block content %}
+<h1 align="center">Customize pseudo elements like placeholders</h1>
+<p >
+Last week, I encountered this challenge of customizing a placeholder text in DOM. Placeholders are HTML5 attributes that gets added to text/textarea elements and provide a tip about that input element.
+
+</p>
+<p >
+Now, a fresher came up with the problem of customizing this placeholder font to a different color(Note: Placeholders are gray colored by default). So, we started with adding a css expression to change the placeholder's font color. Unfortunately, it didn't change anything only in chrome browser and it did work well in other browsers.
+</p>
+<p >
+We tried inspecting the element but the browser dev tools won't allow you to debug pseudo elements (like placeholders, before, after) by default. First, let me explain how to enable inspecting pseudo elements using chrome dev tools.
+</p>
+<p >
+Chrome, calls these pseudo elements as shadow DOM elements. Now to enable this, you need to follow the below steps,
+</p>
+<ul><li>Open the dev tools</li>
+<li>Click on the Cog Wheel/settings icon</li>
+<li>Check the option Show Shadow Dom</li></ul>
+<p >
+The image below will shows the chrome dev toolbar with shadow DOM enabled.
+<img src="http://i.imgur.com/5D81fyM.png" />
+</p>
+<p >
+Now coming back to the problem, though we inspected the placeholder text, we found that the style is not applied. We tried adding all combinations of webkit style css expressions but still it won't work. Then, we started browsing some stackoverflow and fiddle links but no luck.
+</p>
+<p >
+After some 20 minutes of debugging with 3-4 senior developers banging their head, we started to remove unwanted elements from the page one by one and tested if the style gets applied. Nothing happened. Finally, I tried moving the style wrote as inline style to an external stylesheet and refreshed the page. BOOM! it worked.
+</p>
+<p >
+Then, we realised that psedu elements properties cannot be changed by inline stylesheets and can be changed only by external stylesheets. I have no theoretical proof of this. But it worked!!.
+</p>
+<p  style="font-size:10px;">
+- Special Thanks to <a href="https://www.facebook.com/sanchit602">Sanchit Mehta</a> for bringing up this problem to me :)
+- Thanks <a href="http://api.viglink.com/api/click?format=go&jsonp=vglnk_jsonp_14092360344798&key=1f417965cdcb43749b91050ebf1cc671&libId=c0a090c1-899a-4142-863b-b3f7077b20ca&loc=http%3A%2F%2Fwhat-i-learnt-today-blog.blogspot.in%2F&v=1&out=http%3A%2F%2Fwww.blogger.com%2Fprofile%2F00968071519299292739&title=What%20I%20Learnt%20Today&txt=Anto%20%20Vinish">Anto ji</a> for correcting a major mistake in the post.
+</p>
+{% endblock content %}

@@ -1,0 +1,33 @@
+{% extends "single_base.html" %}
+{% block content %}
+<h1 align="center">A small app to track your train</h1>
+ <p >
+<b>Intro:</b><br>
+
+
+<br>
+<b>Problem:</b><br>
+
+<br>
+
+<b>Solution:</b><br>
+    I decided to built an app that allows one to mark the target station and will trigger your phone's alarm when the train crosses that target station. Moreover, this app will use the train's GPS to track the train and not your phone's GPS(No more battery drains suing apps like location based alarms).
+<br>
+<b>Loigc:</b><br>
+<ul>
+<li>User enters the train number</li>
+<li>App shows the list of stations that the train passes by</li>
+<li>User selects one of the station and exits the app</li>
+<li>The above request will be pushed to rabbitmq via celery</li>
+<li>Queue tasks will be processed one by one</li>
+<li>Each queue item will be checked against the train's current position</li>
+<li>When the train has not crossed the station, the task his rescheduled and pushed back into the queue</li>
+<li>When, the train has crossed the station, the device id is identified and a request is pushed to GCM server to send a push notification to that device</li>
+<li>Now, GCM process the request and sends a notification to user's phone</li>
+<li>On receiving the event from GCM server, the app wakes up and triggers the phone's alarm for you</li>
+</ul>
+<br>
+
+</p>
+
+{% endblock content %}

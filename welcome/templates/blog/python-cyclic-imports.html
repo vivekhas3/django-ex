@@ -1,0 +1,67 @@
+{% extends "single_base.html" %}
+{% block meta_keywords %}circular import, cyclic import, python, {% endblock meta_keywords %}
+{% block content %}
+<h1 align="center">Python - Circular (or cyclic) imports in Python</h1>
+<p >Today I am going to explain  What will happen if two modules import each other?<br/><br/>
+There was a really good discussion on this over at comp.lang.python last year. It answers your question pretty thoroughly.
+<br/><br/>
+<div style="background-color:#BDBDBD">
+imports are pretty straightforward really. Just remember the following:
+<br/><br/>
+
+'import' and 'from xxx import yyy' are executable statements. They execute when the running program reaches that line.
+<br/><br/>
+
+If a module is not in sys.modules, then an import creates the new module entry in sys.modules and then executes the code in the module. It does not return control to the calling module until the execution has completed.
+<br/><br/>
+
+If a module does exist in sys.modules then an import simply returns that module whether or not it has completed executing. That is the reason why cyclic imports may return modules which appear to be partly empty.
+<br/><br/>
+
+Finally, the executing script runs in a module named __main__, importing the script under its own name will create a new module unrelated to __main__.
+<br/><br/>
+
+Take that lot together and you shouldn't get any surprises when importing modules.
+</div>
+If you do "import foo" inside bar and "import bar" inside foo, it will work fine. By the time anything actually runs, both modules will be fully loaded and will have references to each other.
+<br/><br/>
+
+The problem is when instead you do "from foo import abc" and "from bar import xyz". Because now each module requires the other module to already be compiled (so that the name we are importing exists) before it can be compiled.
+
+</p>
+I got an example here that struck me!
+
+<b>foo.py</b>
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+import bar
+
+class GO(object):
+   g = 10
+ </code></pre></figure>
+<b>bar.py</b>
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+from foo import gX
+
+o = gX()
+</code></pre></figure>
+<b>main.py</b>
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+import foo
+import bar
+
+print "all done"
+</code></pre></figure>
+At the command line: $ python main.py
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+*Traceback (most recent call last):
+ File "m.py", line 1, in <module>
+   import foo
+ File "/home/xolve/foo.py", line 1, in <module>
+   import bar
+ File "/home/xolve/bar.py", line 1, in <module>
+   from foo import gX
+ImportError: cannot import name gX*
+</code></pre></figure>
+
+
+{% endblock content %}

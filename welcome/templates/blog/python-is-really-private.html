@@ -1,0 +1,98 @@
+{% extends "single_base.html" %}
+{% block meta_keywords %}method, methods, private, python,  {% endblock meta_keywords %}
+{% block content %}
+<h1 align="center">Python - Private Methods Not Actually Private! </h1>
+<p >Today I am going to explain  a small scenario,<br/><br/>
+Python gives us the ability to create 'private' methods and variables within a class by prepending double underscores to the name, like so: *__myPrivateMethod()*. How, then, can one explain this
+</p>
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+
+>>> class MyClass:
+...     def myPublicMethod(self):
+...             print 'public method'
+...     def __myPrivateMethod(self):
+...             print 'this is private!!'
+...
+>>> obj = MyClass()
+>>> obj.myPublicMethod()
+public method
+>>> obj.__myPrivateMethod()
+Traceback (most recent call last):
+ File "", line 1, in
+AttributeError: MyClass instance has no attribute '__myPrivateMethod'
+>>> dir(obj)
+['_MyClass__myPrivateMethod', '__doc__', '__module__', 'myPublicMethod']
+>>> obj._MyClass__myPrivateMethod()
+this is private!!
+</code></pre></figure>
+What's the deal?!
+
+I'll explain this a little for those who didn't quite get that.
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+>>> class MyClass:
+...     def myPublicMethod(self):
+...             print 'public method'
+...     def __myPrivateMethod(self):
+...             print 'this is private!!'
+...
+>>> obj = MyClass()
+</code></pre></figure>
+What I did there is create a class with a public method and a private method and instantiate it.
+
+Next, I call its public method.
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+>>> obj.myPublicMethod()
+public method
+</code></pre></figure>
+Next, I try and call its private method.
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+>>> obj.__myPrivateMethod()
+Traceback (most recent call last):
+ File "", line 1, in
+AttributeError: MyClass instance has no attribute '__myPrivateMethod'
+</code></pre></figure>
+Everything looks good here; we're unable to call it. It is, in fact, 'private'. Well, actually it isn't.
+Running dir() on the object reveals a new magical method that python creates magically for all of your 'private' methods.
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+>>> dir(obj)
+['_MyClass__myPrivateMethod', '__doc__', '__module__', 'myPublicMethod']
+</code></pre></figure>
+
+This new method's name is always an underscore, followed by the class name, followed by the method name.
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+>>> obj._MyClass__myPrivateMethod()
+this is private!!
+</code></pre></figure>
+So much for encapsulation, eh?
+
+In any case, I'd always heard Python doesn't support encapsulation, so why even try? What gives?
+<p >
+The name scrambling is used to ensure that subclasses don't accidentally override the private methods and attributes of their superclasses. It's not designed to prevent deliberate access from outside.
+</p>
+<pre>
+For example:
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+>>> class Foo(object):
+...     def __init__(self):
+...         self.__baz = 42
+...     def foo(self):
+...         print self.__baz
+...
+>>> class Bar(Foo):
+...     def __init__(self):
+...         super(Bar, self).__init__()
+...         self.__baz = 21
+...     def bar(self):
+...         print self.__baz
+...
+>>> x = Bar()
+>>> x.foo()
+42
+>>> x.bar()
+21
+>>> print x.__dict__
+{'_Bar__baz': 21, '_Foo__baz': 42}
+</code></pre></figure>
+Of course, it breaks down if two different classes have the same name.
+
+{% endblock content %}

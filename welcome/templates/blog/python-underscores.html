@@ -1,0 +1,44 @@
+{% extends "single_base.html" %}
+{% block meta_keywords %}python, underscore, variable, variables, {% endblock meta_keywords %}
+{% block content %}
+<h1 align="center">Python - The meaning of a single- and a double-underscore before an object name</h1>
+ <p >Today I am going to explain  the difference between single- and a double-underscore before an object name<br/><br/>
+<b>Single Underscore</b><br/><br/>
+
+Variables in a class with a leading underscore are simply to indicate to other programmers that the variable should be private. However, nothing special is done with the variable itself.<br/><br/>
+<h3><b>Double Underscore (Name Mangling)</b></h3><br/><br/>
+
+From the <a href="http://docs.python.org/tutorial/classes.html#private-variables-and-class-local-references">Python docs</a>:<br/><br/>
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+
+    Any identifier of the form __spam (at least two leading underscores, at most one trailing underscore) is textually replaced with _classname__spam, where classname is the current class name with leading underscore(s) stripped. This mangling is done without regard to the syntactic position of the identifier, so it can be used to define class-private instance and class variables, methods, variables stored in globals, and even variables stored in instances. private to this class on instances of other classes.<br/><br/>
+  </code></pre></figure>
+
+And a warning from the same page:<br/><br/>
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+
+    Name mangling is intended to give classes an easy way to define “private” instance variables and methods, without having to worry about instance variables defined by derived classes, or mucking with instance variables by code outside the class. Note that the mangling rules are designed mostly to avoid accidents; it still is possible for a determined soul to access or modify a variable that is considered private.<br/><br/>
+  </code></pre></figure>
+</p>
+
+Example
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+
+>>> class MyClass():
+...     def __init__(self):
+...             self.__superprivate = "Hello"
+...             self._semiprivate = ", world!"
+...
+>>> mc = MyClass()
+>>> print mc.__superprivate
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: myClass instance has no attribute '__superprivate'
+>>> print mc._semiprivate
+, world!
+>>> print mc.__dict__
+{'_MyClass__superprivate': 'Hello', '_semiprivate': ', world!'}
+
+</code></pre></figure>
+
+{% endblock content %}

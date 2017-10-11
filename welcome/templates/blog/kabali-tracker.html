@@ -1,0 +1,65 @@
+{% extends "single_base.html" %}
+{% block meta_keywords %}bookmyshow, ticket, free, python, bot, ticketbot  {% endblock meta_keywords %}
+
+{% block content %}
+					 <h1 align="center">Kabali Ticket Tracker</h1>
+					 <p >
+					 Here's a small snippet to check if tickets has been opened in any new screens for kabali(or any movie instead) so that you will get a loud alarm once the screens are opened and you can book FDFS without roadblocks.
+					</p>
+					<figure class="highlight">
+						<pre>
+							<code class="language-js" data-lang="js">
+import time
+import requests
+from bs4 import BeautifulSoup
+def theatre_additions_checker():
+	 the_end = False
+	 count = 0
+	 current_theatres = 2
+	 while(True):
+			print "Crawling bookmyshow..."
+			page = requests.get('https://in.bookmyshow.com/buytickets/kabali-chennai/movie-chen-ET00039091-MT/20160722').text
+			#page = requests.get('https://in.bookmyshow.com/bengaluru/movies/kabali/ET00039091').text
+			soup = BeautifulSoup(page, 'html')
+			show_timings = soup.find_all('div', attrs={'class': 'container'})[0]
+			m_s_t = show_timings.find_all('ul')[0]
+			first_p = m_s_t.find_all('li')
+			print len(first_p)
+			if len(first_p)>current_theatres:
+				 print "kabali opned for more theatres!!"
+				 for i in range(10):
+					print('\a')
+				 the_end = True
+			else:
+				 print "No new theatres opened for now"
+			if the_end:
+				 break
+			print "Checking for kabali again in another 5 mins"
+			time.sleep(300)
+if __name__ == "__main__":
+ #page = requests.get('https://in.bookmyshow.com/chennai/movies/ice-age-collision-course-3d/ET00029822').text
+ #initial_checker()
+ 	theatre_additions_checker()
+						</code>
+						</pre>
+					</figure>
+
+					<p >
+					 Just chnage the page url & the initial theatre count and start the script.
+					</p>
+					<p >
+					 You may even create a .bat file and make it run your py file and add it to system startup so that it runs evrytime in background even after restart.
+					</p>
+					<p >
+					Create a .bat file &
+					</p>
+					<figure class="highlight">
+						<pre>
+							<code class="language-js" data-lang="js">
+cd E:\Users\Vivek S\workspace\files\useful_utils\kabali
+python kabali_tracker.py
+TIMEOUT 3
+							</code>
+						</pre>
+					</figure>
+{% endblock content %}

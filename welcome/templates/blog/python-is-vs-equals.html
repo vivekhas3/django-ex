@@ -1,0 +1,57 @@
+{% extends "single_base.html" %}
+{% block meta_keywords %}==, operator, operators, python, {% endblock meta_keywords %}
+{% block content %}
+<h1 align="center">Python - is vs ==</h1>
+ <p >Today I am going to explain  a scenario to differentiate is and == operators.<br/><br/>
+I've got a python program as follows,
+
+ </p>
+
+  <figure class="highlight"><pre><code class="language-js" data-lang="js">
+>>> a=255
+>>> b=255
+>>> a is b
+True
+>>> a=257
+>>> b=257
+>>> a is b
+False
+</code></pre></figure>
+
+This is because,
+is is identity testing, == is equality testing. what happens in your code would be emulated in the interpreter like this:
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+
+>>> a = 'pub'
+>>> b = ''.join(['p', 'u', 'b'])
+>>> a == b
+True
+>>> a is b
+False
+</code></pre></figure>
+
+so, no wonder they're not the same, right?
+
+In other words: is is the id(a) == id(b)
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+
+>>> a=255
+>>> b=255
+>>> id(a)
+144784368
+>>> id(b)
+144784368
+>>> a=255
+>>> a=257
+>>> b=257
+>>> id(a)
+145365120
+>>> id(b)
+145365108
+</code></pre></figure>
+
+<p >
+So, when the char set exceeds 256, a new id is assigned and that's why identity check fails for the above case.
+</p>
+
+{% endblock content %}

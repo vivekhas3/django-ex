@@ -1,0 +1,48 @@
+{% extends "single_base.html" %}
+{% block meta_keywords %}iffilterfalse, iterate, itertools, list, lists, python,  {% endblock meta_keywords %}
+
+{% block content %}
+<h1 align="center">Python - Removing Items from a List</h1>
+ <p >Today I am going to explain  a small piece of code to remove items from a list.<br/><br/>
+Let's say<br/><br/>
+
+I'm iterating over a list of tuples in Python, and am attempting to remove them if they meet certain criteria.
+
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+for tup in somelist:
+    if determine(tup):
+         code_to_remove_tup
+</code></pre></figure>
+
+
+What should I use in place of code_to_remove_tup?
+A list comprehension is best for this kind of loop.
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+
+somelist = [x for x in somelist if determine(x)]
+</code></pre></figure>
+
+If I want to 'determine' what should be deleted. That would then be just.
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+
+somelist = [x for x in somelist if not determine(x)]
+</code></pre></figure>
+<p >
+EDIT: The above would create a new list and assign it the name of old list. So, you will loose reference to the original list unless you do it this way,This is explained in <a href="http://what-i-learnt-today-blog.blogspot.co.uk/2013/01/python-list-slicing.html">List slicing(One of my previous posts)</a>
+</p>
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+
+somelist[:] = [x for x in somelist if not determine(x)]
+</code></pre></figure>
+
+<p >
+
+Also, using <a href="http://what-i-learnt-today-blog.blogspot.in/2013/01/python-itertools-part-2.html">itertools(explained in a previous post)</a>. However there is no non iterator filterfalse, so it will have to be.
+</p>
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+
+from itertools import ifilterfalse
+somelist[:] = list(ifilterfalse(determine, somelist))
+</code></pre></figure>
+
+{% endblock content %}

@@ -1,0 +1,22 @@
+{% extends "single_base.html" %}
+{% block meta_keywords %}class, classes, new, old, python,  {% endblock meta_keywords %}
+
+{% block content %}
+<h1 align="center">Python - Old vs New Style Classes</h1>
+<p >Today I am going to breif on the question <br/><br/>
+<b>
+What is the difference between old style and new style classes in Python? Is there ever a reason to use old-style classes these days?
+</b>
+<br/><br/>
+Well to begin with, the concept of old style classes are unrelated to the concept of type method.When a class is declared with
+old style method, the the __class__ attribute will return the class itself , but type(x) is always < type 'instance'>. This reflects
+the fact that all old-style instances, independently of their class, are implemented with a single built-in type, called instance.
+<br/><br/>
+New-style classes were introduced in Python 2.2 to unify classes and types. A new-style class neither more nor less than a user-defined type. If x is an instance of a new-style class, then type(x) is the same as x.__class__.
+
+<br/><br/>The major motivation for introducing new-style classes is to provide a unified object model with a full meta-model. It also has a number of immediate benefits, like the ability to subclass most built-in types, or the introduction
+
+<br/><br/>Python 3 only has new-style classes. No matter if you subclass from object or not, classes are new-style in Python 3. It is however recommended that you still subclass from object.
+
+</p>
+{% endblock content %}

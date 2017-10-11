@@ -1,0 +1,78 @@
+{% extends "single_base.html" %}
+{% block meta_keywords %}itertools, methods, python, {% endblock meta_keywords %}
+
+{% block content %}
+<h1 align="center">Python - Itertools Part 2</h1>
+ <p >Today I am going to explain my understanding on some of the amazing functions available in python's itertools module.
+ These too are very essential functions, and a clear understanding of these methods would help one in becoming a better python programmer.
+ All these methods will return an iterable object as response.
+ </p>
+ <ol>
+ <li>
+  <b>ifilterfalse:</b>
+ </li>
+ <p >
+  Returns only those for which the predicate is False. If predicate is None, return the items that are false.
+ </p>
+ <figure class="highlight"><pre><code class="language-js" data-lang="js">
+
+ def ifilterfalse(predicate, iterable):
+
+  if predicate is None:
+   predicate = bool
+  for x in iterable:
+   if not predicate(x):
+    yield x
+ >>> [j for j in i.ifilterfalse(lambda x:x%5,range(30))]
+ [0, 5, 10, 15, 20, 25]
+</code></pre></figure>
+
+ <li>
+  <b>imap:</b>
+ </li>
+ <p >
+ Maps the list of elements to a function and provide the applied result. This method can accept several lists as arguments depending on the target function's
+ arguments.
+ </p>
+ <figure class="highlight"><pre><code class="language-js" data-lang="js">
+
+ def imap(function, *iterables):
+  # imap(pow, (2,3,10), (5,2,3)) --> 32 9 1000
+  iterables = map(iter, iterables)
+  while True:
+   args = [next(it) for it in iterables]
+   if function is None:
+    yield tuple(args)
+   else:
+    yield function(*args)
+
+ >>> [ j for j in i.imap(lambda x,y:x+y,[1,2,3],[4,5,6])]
+ [5, 7, 9]
+</code></pre></figure>
+
+ <li>
+  <b>islice:</b>
+ </li>
+ <p >
+ Accepts 3 argumenst namely start,stop and the iterator and returns a subset of the list.This is similar to substr and normal index slicing.
+ </p>
+ <figure class="highlight"><pre><code class="language-js" data-lang="js">
+
+ >>> [j for j in i.islice([1,2,3,4,5],2,4)]
+ [3, 4]
+</code></pre></figure>
+
+ <li>
+  <b>izip:</b>
+ </li>
+ <p >
+  This method maps the given two lists(iterables) and returns a tuple.
+ </p>
+ <figure class="highlight"><pre><code class="language-js" data-lang="js">
+
+ >>> [j for j in i.izip(range(4),range(5,11))]
+ [(0, 5), (1, 6), (2, 7), (3, 8)]
+</code></pre></figure>
+
+ </ol>
+{% endblock content %}

@@ -1,0 +1,32 @@
+{% extends "single_base.html" %}
+{% block meta_keywords %}installation, python, setup, virtualenv, {% endblock meta_keywords %}
+{% block content %}
+<h1 align="center">Python - Virtualenv</h1>
+ <p >Today I am going to explain  how to install virtualenv and install python in it in linux<br/><br/>
+Sometimes you would have to install & complie Python from source and then create venv from that. These are steps for Python 2.7.2:
+</p>
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+
+mkdir ~/src
+wget http://www.python.org/ftp/python/2.7.2/Python-2.7.2.tgz
+tar -zxvf Python-2.7.2.tar.gz
+cd Python-2.7.2
+mkdir ~/.localpython
+./configure --prefix=/home/<user>/.localpython
+make
+make install
+</code></pre></figure>
+
+<b>virtual env</b>
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+
+cd ~/src
+wget http://pypi.python.org/packages/source/v/virtualenv/virtualenv-1.5.2.tar.gz#md5=fbcefbd8520bb64bc24a560c6019a73c
+tar -zxvf virtualenv-1.5.2.tar.gz
+cd virtualenv-1.5.2/
+~/.localpython/bin/python setup.py install
+virtualenv ve -p /home/<user>/.localpython/bin/python2.7
+source activate
+</code></pre></figure>
+
+{% endblock content %}

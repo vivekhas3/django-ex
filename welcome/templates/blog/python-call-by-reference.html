@@ -1,0 +1,94 @@
+{% extends "single_base.html" %}
+{% block meta_keywords %}call by reference, methods, python, {% endblock meta_keywords %}
+
+{% block content %}
+<h1 align="center">Python - Call by Reference</h1>
+ <p >Today I am going to explain the question that arouse in me while i was learning python.
+ Is there something I can do to pass the variable by actual reference?
+ Parameters are passed by value. The reason people are confused by the behaviour is twofold:
+
+    the parameter passed in is actually a reference to a variable (but the reference is passed by value)
+    some data types are mutable, but others aren't
+
+So, if you pass a mutable object into a method, the method gets a reference to that same object and you can mutate it to your heart's delight, but if you rebind the reference in the method, the outer scope will know nothing about it, and after you're done, the outer reference will still point at the original object. If out pass an immutable object to a method, you still can't rebind the outer reference, and you can't even mutate the object.
+
+Okay, this is a little confusing. Let's have some examples.
+Let's try to modify the list that was passed to a method:
+ </p>
+ <figure class="highlight"><pre><code class="language-js" data-lang="js">
+def try_to_change_list_contents(the_list):
+    print 'got', the_list
+    the_list.append('four')
+    print 'changed to', the_list
+
+outer_list = ['one', 'two', 'three']
+
+print 'before, outer_list =', outer_list
+try_to_change_list_contents(outer_list)
+print 'after, outer_list =', outer_list
+
+before, outer_list = ['one', 'two', 'three']
+got ['one', 'two', 'three']
+changed to ['one', 'two', 'three', 'four']
+after, outer_list = ['one', 'two', 'three', 'four']
+</code></pre></figure>
+
+ <p >
+Since the parameter passed in is a reference to outer_list, not a copy of it, we can use the mutating list methods to change it and have the changes reflected in the outer scope.
+
+Now let's see what happens when we try to change the reference that was passed in as a parameter:
+ </p>
+ <pre>
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+  def try_to_change_list_reference(the_list):
+    print 'got', the_list
+    the_list = ['and', 'we', 'can', 'not', 'lie']
+    print 'set to', the_list
+
+outer_list = ['we', 'like', 'proper', 'English']
+
+print 'before, outer_list =', outer_list
+try_to_change_list_reference(outer_list)
+print 'after, outer_list =', outer_list
+
+before, outer_list = ['we', 'like', 'proper', 'English']
+got ['we', 'like', 'proper', 'English']
+set to ['and', 'we', 'can', 'not', 'lie']
+after, outer_list = ['we', 'like', 'proper', 'English']
+</code></pre></figure>
+
+ <p >
+Since the the_list parameter was passed by value, assigning a new list to it had no effect that the code outside the method could see. The the_list was a copy of the outer_list reference, and we had the_list point to a new list, but there was no way to change where outer_list pointed.
+String - an immutable type
+
+It's immutable, so there's nothing we can do to change the contents of the string
+
+Now, let's try to change the reference
+</p>
+<figure class="highlight"><pre><code class="language-js" data-lang="js">
+def try_to_change_string_reference(the_string):
+    print 'got', the_string
+    the_string = 'In a kingdom by the sea'
+    print 'set to', the_string
+
+outer_string = 'It was many and many a year ago'
+
+print 'before, outer_string =', outer_string
+try_to_change_string_reference(outer_string)
+print 'after, outer_string =', outer_string
+
+before, outer_string = It was many and many a year ago
+got It was many and many a year ago
+set to In a kingdom by the sea
+after, outer_string = It was many and many a year ago
+
+</code></pre></figure>
+
+
+ <p >
+
+Again, since the the_string parameter was passed by value, assigning a new string to it had no effect that the code outside the method could see. The the_string was a copy of the outer_string reference, and we had the_string point to a new list, but there was no way to change where outer_string pointed.
+
+I hope this clears things up a little.
+</p>
+{% endblock content %}
