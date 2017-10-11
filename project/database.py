@@ -17,7 +17,7 @@ def config():
     else:
         engine = engines['sqlite']
     if os.getenv("vivek_env") == "local":
-        engine = "mysql"
+        engine = engines["mysql"]
     name = os.getenv('DATABASE_NAME')
     if not name and engine == engines['sqlite']:
         name = os.path.join(settings.BASE_DIR, 'db.sqlite3')
