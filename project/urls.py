@@ -15,6 +15,6 @@ urlpatterns = [
     url(r'^download/?$', download, name='download'),                                                                                 
     url(r'^blog/', include('blog.urls')),
 ]
-if os.getenv("vivek_env") == "local":
+if 1:#os.getenv("vivek_env") == "local":
     urlpatterns += patterns('', url(r'^static/(?P<path>.*)$', 'django.views.static.serve',  # NOQA                                   
             {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}))   
