@@ -1,7 +1,7 @@
 import os
 from django.conf.urls import include, url, patterns
 from django.contrib import admin
-import settings
+from project import settings
 from welcome.views import index, health,Home,download
 
 urlpatterns = [
