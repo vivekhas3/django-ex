@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 ARTICLES = {
     "kabali-tracker":{"title":"BookMyShow Movie Ticket Tracker", "pub_date":"18/06/2016"},
     "python-is-really-private":{"title":"Python - Private Methods Not Actually Private!", "pub_date":"15/02/2013"},
@@ -34,4 +34,4 @@ def show_article(request, path):
         context["article"] = ARTICLES[path]
     else:
         template = "index.html"
-    return render_to_response(template, context)
+    return render(request, template, context)
