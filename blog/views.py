@@ -34,6 +34,6 @@ def show_article(request, path):
         context["article"] = ARTICLES[path]
     else:
         template = "index.html"
-    print context
-    print "AAAA"
+    print(context)
+    print("AAAA")
     return render(request, template, context)
